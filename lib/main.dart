@@ -16,16 +16,29 @@ class MyApp extends StatefulWidget {
 }
 
 class MyAppState extends State<MyApp> {
-  int questionIndex = 0;
+  int _questionIndex = 0;
 
-  void answerButton() {
+  void _answerButton() {
     setState(() {
-      questionIndex++;
+      _questionIndex++;
     });
-    print(questionIndex);
+    print(_questionIndex);
   }
 
-  var questions = ['Question 1 ?', 'Question 2 ?', 'Question 3 ?'];
+  var questions = [
+    {
+      'question': 'What\'s your fav color ?',
+      'answer': ['red', 'black', 'white', 'green']
+    },
+    {
+      'question': 'What\'s your fav animal ?',
+      'answer': ['dog', 'cat', 'rabbit', 'lion']
+    },
+    {
+      'question': 'What\'s your fav flag ?',
+      'answer': ['India', 'USA', 'UK', 'Russia']
+    },
+  ];
 
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -35,10 +48,11 @@ class MyAppState extends State<MyApp> {
         ),
         body: Column(
           children: <Widget>[
-            Question(questions[questionIndex]),
-            Answer(answerButton, 'Answer 1'),
-            Answer(answerButton, 'Answer 2'),
-            Answer(answerButton, 'Answer 3'),
+            Question(questions[_questionIndex]['question']),
+            ...(questions[_questionIndex]['answer'] as List<String>)
+                .map((answer) {
+              return Answer(_answerButton, answer);
+            }).toList()
           ],
         ),
       ),
